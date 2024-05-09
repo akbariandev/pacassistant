@@ -3,7 +3,7 @@
 FROM golang:1.21.4 AS builder
 
 # Set the working directory inside the container
-WORKDIR /app
+WORKDIR /pacassistant
 
 # Copy the go.mod and go.sum files to the working directory
 COPY go.mod go.sum ./
@@ -21,10 +21,10 @@ RUN go build -o main .
 FROM golang:1.21.4
 
 # Set the working directory inside the container
-WORKDIR /app
+WORKDIR /pacassistant
 
 # Copy the binary from the builder stage to the new stage
-COPY --from=builder /app/main .
+COPY --from=builder /pacassistant/main .
 
 # Expose the port the application will run on
 EXPOSE 8050
