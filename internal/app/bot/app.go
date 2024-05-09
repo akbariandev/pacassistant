@@ -99,7 +99,8 @@ func (a *Application) GetMongodbConnector() mongodb.Connector {
 func (a *Application) registerHandlerLayer() {
 	priceCache := cache.NewBasic[string, domain.Price](0 * time.Second)
 
-	botUseCase := usecase.NewBot(a.logger, a.pactusClient, a.telegramBot, priceCache)
+	accountUseCase := usecase.NewAccount(a.pactusClient, a.logger, nil)
+	botUseCase := usecase.NewBot(accountUseCase, a.pactusClient, a.telegramBot, priceCache, a.logger)
 	botUseCase.HandleMessages()
 
 	// background jobs
