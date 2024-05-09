@@ -1,18 +1,33 @@
-FROM golang:1.21-alpine as builder
+# Modify the Dockerfile to copy uploaded files during build
+# Use the official Golang image as the base image
+FROM golang:1.21.4 AS builder
 
-RUN mkdir /app
+# Set the working directory inside the container
 WORKDIR /app
 
-COPY . /app
+# Copy the go.mod and go.sum files to the working directory
+COPY go.mod go.sum ./
 
-# build
+# Download and install Go module dependencies
+RUN go mod download
+
+# Copy the rest of the application code to the working directory
+COPY . .
+
+# Build the Golang application
+RUN go build -o main .
+
+# Start a new stage to create a smaller image
+FROM golang:1.21.4
+
+# Set the working directory inside the container
 WORKDIR /app
-RUN make build-bot
 
-FROM alpine:3.14
-RUN apk --no-cache add ca-certificates tzdata git
-RUN mkdir -p /etc/bot
-RUN mkdir /app
-COPY --from=builder /app/main /app
-RUN chmod +x /app/main
-CMD ["./app/main", "-c", "/etc/bot/config.yml", "run"]
+# Copy the binary from the builder stage to the new stage
+COPY --from=builder /app/main .
+
+# Expose the port the application will run on
+EXPOSE 8050
+
+# Start the Golang application
+CMD ["./main","-c", "/etc/bot/config.yml", "run"]
