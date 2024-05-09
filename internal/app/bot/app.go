@@ -57,17 +57,17 @@ func New(
 		return nil, errors.New("service config is nil")
 	}
 
-	database, err := newMongodb(ctx, serviceConfig.Database.Mongodb.URI, serviceConfig.Database.Mongodb.DatabaseName)
-	if err != nil {
-		return nil, err
-	}
-
+	/*	database, err := newMongodb(ctx, serviceConfig.Database.Mongodb.URI, serviceConfig.Database.Mongodb.DatabaseName)
+		if err != nil {
+			return nil, err
+		}
+	*/
 	app.serviceConfig = serviceConfig
 	app.logger = logger
-	app.mongodbConnector = database
+	//app.mongodbConnector = database
 	app.pactusClient = pactusClient
 	app.telegramBot = telegramBot
-	app.transaction = mongodb.NewTransaction(database.GetMongoClient())
+	//app.transaction = mongodb.NewTransaction(database.GetMongoClient())
 	app.scheduler = scheduler.NewScheduler()
 
 	return app, nil
