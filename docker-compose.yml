@@ -1,5 +1,9 @@
 version: '3'
 
+networks:
+  general:
+    external: true
+
 services:
   app:
     build:
