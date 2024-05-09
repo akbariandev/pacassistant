@@ -7,7 +7,7 @@ COPY . /app
 
 # build
 WORKDIR /app
-RUN make build-explorer
+RUN make build-bot
 
 FROM alpine:3.14
 RUN apk --no-cache add ca-certificates tzdata git
