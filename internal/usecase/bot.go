@@ -20,8 +20,8 @@ const (
 
 var (
 	mainMenu          = &telegram.ReplyMarkup{}
-	btnPacPrice       = mainMenu.Data("PAC Price", "pac_price")
-	btnAddressBalance = mainMenu.Data("Address Balance", "address_balance")
+	btnPacPrice       = mainMenu.Data("PAC Price", "/price")
+	btnAddressBalance = mainMenu.Data("Address Balance", "/balance")
 )
 
 type MessageStage int64
